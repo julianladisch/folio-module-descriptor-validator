@@ -1,0 +1,25 @@
+name: Module Descriptor Validation Report
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+    - run: |
+        echo '{
+                "id": "mod-foo-1.2.3",
+                "name": "Foobedoobedoo",
+                "provides": [],
+                "requires": [
+                  {
+                    "id": "login",
+                    "version": "7.1"
+                  },
+                  {
+                    "id": "erm",
+                    "version": "6.1"
+                  }
+                ],
+                "permissionSets": [],
+              }' > md.json
+        mvn -B org.folio:folio-module-descriptor-validator:1.0.1-SNAPSHOT:validate -DmoduleDescriptorFile=md.sson >> $GITHUB_STEP_SUMMARY
+        done
